@@ -1,0 +1,41 @@
+
+name: Deploy Go Program
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.17
+
+    - name: Build Go program
+      run: go build -o msauthserver ./cmd
+
+    - name: Copy assets and binary to remote server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          # Remove existing binary and assets folder
+          rm -rf /home/msauth/msauthserver
+          rm -rf /home/msauth/assets
+
+          # Copy new binary and assets folder
+          scp -r msauthserver assets ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/msauth/
+
+          # Restart the remote service (adjust the command as needed)
+          #systemctl restart your-service-name
