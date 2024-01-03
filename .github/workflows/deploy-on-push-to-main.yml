@@ -1,4 +1,4 @@
-#v5
+#v6
 name: Deploy Go Program
 
 on:
