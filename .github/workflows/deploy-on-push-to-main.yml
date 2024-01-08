@@ -22,7 +22,7 @@ jobs:
     - name: Build Go program
       run: go build -o msauthserver ./cmd
     - name: Adding Known Hosts
-      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
 
     - name: Copy assets and binary to remote server
       uses: appleboy/ssh-action@master
