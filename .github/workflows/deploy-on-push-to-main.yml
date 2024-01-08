@@ -1,4 +1,5 @@
 #v8
+# SHA256:R80K/PHEDqQzY/hmn+ejqCGUbdXgESGxgA2gwJSXml8
 name: Deploy Go Program
 
 on:
@@ -29,6 +30,7 @@ jobs:
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
+        fingerprint: SHA256:R80K/PHEDqQzY/hmn+ejqCGUbdXgESGxgA2gwJSXml8
         script: |
           # Remove existing binary and assets folder
           rm -rf /home/msauth/msauthserver
